@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>染め氷 コントローラ</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        .btn {
+            width: 100%;
+            height: 50px;
+            display: block;
+            margin-top: 4px;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        #rainbow {
+            background-image: -webkit-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            background-image: -moz-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            background-image: -o-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            background-image: -ms-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <input id="blue" class="btn btn-default " style="background-color: rgb(34,140,252);" type="button" value="Blue">
+    <input id="orange" class="btn btn-default" style="background-color: rgb(223,87,43);" type="button" value="Orange">
+    <input id="black" class="btn btn-default" style="background-color: rgb(82,44,46);" type="button" value="Black">
+    <input id="red" class="btn btn-default" style="background-color: rgb(181,28,28);" type="button" value="Red">
+    <input id="purple" class="btn btn-default" style="background-color: rgb(110,68,158);" type="button" value="Purple">
+    <input id="yellow" class="btn btn-default" style="background-color: rgb(247,239,28);" type="button" value="Yellow">
+    <input id="dark_green" class="btn btn-default" style="background-color: rgb(55,102,39);" type="button"
+           value="Dark green">
+    <input id="green" class="btn btn-default" style="background-color: rgb(66,179,67);" type="button" value="Green">
+    <input id="oudo" class="btn btn-default" style="background-color: rgb(175,144,21);" type="button" value="Oudo">
+    <input id="pink" class="btn btn-default" style="background-color: rgb(218,41,137);" type="button" value="Pink">
+    <!--<input id="all" class="btn btn-default" style="background-color: rgb(255,255,255);" type="button" value="ALL">-->
+
+    <input id="rainbow" class="btn btn-default" type="button" value="Rainbow">
+
+</div>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+
+    var PUMP_CYAN = 0;
+    var PUMP_MAGENTA = 1;
+    var PUMP_YELLOW = 2;
+    var PUMP_BLACK = 3;
+
+    var ONE_PUSH_DURATION = 1500;
+
+    var BLUE = [[PUMP_CYAN, 0, 1 * ONE_PUSH_DURATION]];
+    var ORANGE = [[PUMP_MAGENTA, 0, 0.3 * ONE_PUSH_DURATION], [PUMP_YELLOW, 0, 0.8 * ONE_PUSH_DURATION]];
+    var BLACK = [[PUMP_BLACK, 0, 1 * ONE_PUSH_DURATION]];
+    var RED = [[PUMP_MAGENTA, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+    var PURPLE = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_MAGENTA, 0, 0.7 * ONE_PUSH_DURATION]];
+    var YELLOW = [[PUMP_YELLOW, 0, 1 * ONE_PUSH_DURATION]];
+    var DARK_GREEN = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+    var GREEN = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_YELLOW, 0, 0.7 * ONE_PUSH_DURATION]];
+    var OUDO = [[PUMP_YELLOW, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+    var PINK = [[PUMP_MAGENTA, 0, 1 * ONE_PUSH_DURATION]];
+    var ALL = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_MAGENTA, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_YELLOW, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+
+    var socket = io();
+    $('#blue').click(function () {
+        socket.emit('command', BLUE);
+    });
+    $('#orange').click(function () {
+        socket.emit('command', ORANGE);
+    });
+    $('#black').click(function () {
+        socket.emit('command', BLACK);
+    });
+    $('#red').click(function () {
+        socket.emit('command', RED);
+    });
+    $('#purple').click(function () {
+        socket.emit('command', PURPLE);
+    });
+    $('#yellow').click(function () {
+        socket.emit('command', YELLOW);
+    });
+    $('#dark_green').click(function () {
+        socket.emit('command', DARK_GREEN);
+    });
+    $('#green').click(function () {
+        socket.emit('command', GREEN);
+    });
+    $('#oudo').click(function () {
+        socket.emit('command', OUDO);
+    });
+    $('#pink').click(function () {
+        socket.emit('command', PINK);
+    });
+    $('#rainbow').click(function () {
+        //BLUE->PURPLE->PINK->RED->ORANGE->YELLOW->OUDO->GREEN->DARK_GREEN->BLACK
+        var colors = [BLUE, PURPLE, PINK, RED, ORANGE, YELLOW, OUDO, GREEN, DARK_GREEN, BLACK];
+        var temp = function (i) {
+            socket.emit('command', colors[i]);
+            if (i + 1 < colors.length) {
+                setTimeout(temp, ONE_PUSH_DURATION, i + 1)
+            }
+        };
+        temp(0)
+    });
+
+</script>
+</body>
+</html>

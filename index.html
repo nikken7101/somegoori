@@ -1,0 +1,210 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>染め氷 コントローラ</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        .btn {
+            width: 100%;
+            height: 50px;
+            display: block;
+            margin-top: 4px;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        #rainbow {
+            background-image: -webkit-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            background-image: -moz-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            background-image: -o-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            background-image: -ms-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            /*margin-top: 15px;*/
+        }
+
+        #color_circle {
+            display: block;
+            margin: auto;
+            margin-top: 120px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<!--<img id="color_circle" src="./images/color_circle.png">-->
+<img id="color_circle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/HLSColorSpace.png/220px-HLSColorSpace.png">
+<!--<div class="container-fluid">-->
+<!--<input id="blue" class="btn btn-default " style="background-color: rgb(34,140,252);" type="button" value="Blue">-->
+<!--<input id="orange" class="btn btn-default" style="background-color: rgb(223,87,43);" type="button" value="Orange">-->
+<!--<input id="black" class="btn btn-default" style="background-color: rgb(82,44,46);" type="button" value="Black">-->
+<!--<input id="red" class="btn btn-default" style="background-color: rgb(181,28,28);" type="button" value="Red">-->
+<!--<input id="purple" class="btn btn-default" style="background-color: rgb(110,68,158);" type="button" value="Purple">-->
+<!--<input id="yellow" class="btn btn-default" style="background-color: rgb(247,239,28);" type="button" value="Yellow">-->
+<!--<input id="dark_green" class="btn btn-default" style="background-color: rgb(55,102,39);" type="button"-->
+<!--value="Dark green">-->
+<!--<input id="green" class="btn btn-default" style="background-color: rgb(66,179,67);" type="button" value="Green">-->
+<!--<input id="oudo" class="btn btn-default" style="background-color: rgb(175,144,21);" type="button" value="Oudo">-->
+<!--<input id="pink" class="btn btn-default" style="background-color: rgb(218,41,137);" type="button" value="Pink">-->
+
+<!--<input id="all" class="btn btn-default" style="background-color: rgb(255,255,255);" type="button" value="ALL">-->
+<input id="rainbow" class="btn btn-default" type="button" value="Rainbow">
+
+<!--</div>-->
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+
+    var PUMP_CYAN = 0;
+    var PUMP_MAGENTA = 1;
+    var PUMP_YELLOW = 2;
+    var PUMP_BLACK = 3;
+
+    var ONE_PUSH_DURATION = 1500;
+
+//    var BLUE = [[PUMP_CYAN, 0, ONE_PUSH_DURATION, 1]];
+//    var ORANGE = [[PUMP_MAGENTA, 0, ONE_PUSH_DURATION, 0.2], [PUMP_YELLOW, 0, ONE_PUSH_DURATION, 0.8]];
+//    var BLACK = [[PUMP_BLACK, 0, ONE_PUSH_DURATION, 0.8]];
+//    var RED = [[PUMP_MAGENTA, 0, ONE_PUSH_DURATION, 0.7], [PUMP_BLACK, 0, ONE_PUSH_DURATION, 0.7]];
+//    var PURPLE = [[PUMP_CYAN, 0, ONE_PUSH_DURATION, 0.7], [PUMP_MAGENTA, 0, ONE_PUSH_DURATION, 0.7]];
+//    var YELLOW = [[PUMP_YELLOW, 0, ONE_PUSH_DURATION, 1]];
+//    var DARK_GREEN = [[PUMP_CYAN, 0, ONE_PUSH_DURATION, 0.7], [PUMP_BLACK, 0, ONE_PUSH_DURATION, 0.7]];
+//    var GREEN = [[PUMP_CYAN, 0, ONE_PUSH_DURATION, 0.7], [PUMP_YELLOW, 0, ONE_PUSH_DURATION, 0.7]];
+//    var OUDO = [[PUMP_YELLOW, 0, ONE_PUSH_DURATION, 0.7], [PUMP_BLACK, 0, ONE_PUSH_DURATION, 0.7]];
+//    var PINK = [[PUMP_MAGENTA, 0, ONE_PUSH_DURATION, 1]];
+//    var ALL = [[PUMP_CYAN, 0, ONE_PUSH_DURATION, 0.5], [PUMP_MAGENTA, 0, ONE_PUSH_DURATION, 0.5], [PUMP_YELLOW, 0, ONE_PUSH_DURATION, 0.5], [PUMP_BLACK, 0, ONE_PUSH_DURATION, 0.5]];
+    var BLUE = [[PUMP_CYAN, 0, 1 * ONE_PUSH_DURATION]];
+    var ORANGE = [[PUMP_MAGENTA, 0, 0.3 * ONE_PUSH_DURATION], [PUMP_YELLOW, 0, 0.8 * ONE_PUSH_DURATION]];
+    var BLACK = [[PUMP_BLACK, 0, 1 * ONE_PUSH_DURATION]];
+    var RED = [[PUMP_MAGENTA, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+    var PURPLE = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_MAGENTA, 0, 0.7 * ONE_PUSH_DURATION]];
+    var YELLOW = [[PUMP_YELLOW, 0, 1 * ONE_PUSH_DURATION]];
+    var DARK_GREEN = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+    var GREEN = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_YELLOW, 0, 0.7 * ONE_PUSH_DURATION]];
+    var OUDO = [[PUMP_YELLOW, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+    var PINK = [[PUMP_MAGENTA, 0, 1 * ONE_PUSH_DURATION]];
+    var ALL = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_MAGENTA, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_YELLOW, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+
+    var socket = io();
+    //var socket = io('http://localhost:3000');
+    $('#color_circle').bind("touchstart", function () {
+        var x = event.originalEvent.touches[0].pageX;
+        var y = event.originalEvent.touches[0].pageY;
+        touch_circle(x, y)
+    });
+
+    $('#color_circle').click(function (e) {
+        var x = e.pageX;
+        var y = e.pageY;
+        touch_circle(x, y)
+    });
+
+    var touch_circle = function (x, y) {
+        console.log("x:", x, "y:", y);
+        var circle_width = $("#color_circle").width();
+        var circle_position = $("#color_circle").offset();
+        var circle_position_y = circle_position.top;
+        var circle_position_x = circle_position.left;
+        var circle_center_x = circle_position_x + (circle_width / 2);
+        var circle_center_y = circle_position_y + (circle_width / 2);
+        var rel_x = x - circle_center_x;
+        var rel_y = y - circle_center_y;
+        //console.log("width:", circle_width);
+        //console.log("rel_x:", rel_x, "rel_y:", rel_y);
+        //console.log("position: ", circle_position_x);
+        var rad = Math.atan2(rel_y, rel_x);
+        var deg = rad / Math.PI * 180;
+        //console.log("rad:", rad);
+        console.log("deg:", deg);
+
+//        if (Math.abs(rel_x) > circle_width / 2 || Math.abs(rel_y) > circle_width / 2){
+//            socket.emit('command', BLACK);
+//            console.log("BLACK")
+//        }
+//        else
+        if (0 <= deg && deg < 30) {
+            socket.emit('command', RED);
+            console.log("RED")
+        } else if (30 <= deg && deg < 80) {
+            socket.emit('command', PINK);
+            console.log("PINK")
+        }
+        else if (80 <= deg && deg < 105) {
+            socket.emit('command', PURPLE);
+            console.log("PURPLE")
+        } else if (30 <= deg && deg < 180) {
+            socket.emit('command', BLUE);
+            console.log("BLUE")
+        } else if (-180 <= deg && deg < -155) {
+            socket.emit('command', BLUE);
+            console.log("BLUE")
+        } else if (-155 <= deg && deg < -125) {
+            socket.emit('command', DARK_GREEN);
+            console.log("DARK_GREEN")
+        } else if (-125 <= deg && deg < -70) {
+            socket.emit('command', GREEN);
+            console.log("GREEN")
+        } else if (-70 <= deg && deg < -35) {
+            socket.emit('command', YELLOW);
+            console.log("YELLOW")
+        } else if (-35 <= deg && deg < -20) {
+            socket.emit('command', OUDO);
+            console.log("OUDO")
+        } else if (-20 <= deg && deg < 0) {
+            socket.emit('command', ORANGE);
+            console.log("ORANGE")
+        }
+
+
+    };
+
+    //    $('#blue').click(function () {
+    //        socket.emit('command', BLUE);
+    //    });
+    //    $('#orange').click(function () {
+    //        socket.emit('command', ORANGE);
+    //    });
+    //    $('#black').click(function () {
+    //        socket.emit('command', BLACK);
+    //    });
+    //    $('#red').click(function () {
+    //        socket.emit('command', RED);
+    //    });
+    //    $('#purple').click(function () {
+    //        socket.emit('command', PURPLE);
+    //    });
+    //    $('#yellow').click(function () {
+    //        socket.emit('command', YELLOW);
+    //    });
+    //    $('#dark_green').click(function () {
+    //        socket.emit('command', DARK_GREEN);
+    //    });
+    //    $('#green').click(function () {
+    //        socket.emit('command', GREEN);
+    //    });
+    //    $('#oudo').click(function () {
+    //        socket.emit('command', OUDO);
+    //    });
+    //    $('#pink').click(function () {
+    //        socket.emit('command', PINK);
+    //    });
+    $('#all').click(function () {
+        socket.emit('command', ALL);
+    });
+    $('#rainbow').click(function () {
+        //BLUE->PURPLE->PINK->RED->ORANGE->YELLOW->OUDO->GREEN->DARK_GREEN
+        var colors = [BLUE, PURPLE, PINK, RED, ORANGE, YELLOW, OUDO, GREEN, DARK_GREEN];
+        var colors_names = ["BLUE", "PURPLE", "PINK", "RED", "ORANGE", "YELLOW", "OUDO", "GREEN", "DARK_GREEN"];
+        var rainbow = function (i) {
+            socket.emit('command', colors[i]);
+            console.log(colors_names[i]);
+            if (i + 1 < colors.length) {
+                setTimeout(rainbow, ONE_PUSH_DURATION+500, i + 1)
+            }
+        };
+        rainbow(0)
+    });
+
+</script>
+</body>
+</html>
