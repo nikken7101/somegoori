@@ -15,7 +15,46 @@
             margin-left: auto;
             margin-right: auto
         }
-
+        .quiz_btn{
+          margin: 20px auto auto 0;
+          padding: 0;
+          /*min-height: 228px;*/
+          border: none;
+          /*background-image: url('img/purple.png');*/
+          /*background-repeat: no-repeat;*/
+          /*background-position: center;*/
+          /*background-size: contain;*/
+          /*text-indent: -9999px;*/
+          text-align: center;
+          width: 100%;
+          cursor: pointer;
+        }
+        .quiz_btn:hover{
+          background-color: transparent;
+        }
+        .quiz_btn img{
+          width: 100%;
+          height: auto;
+        }
+        .basic{
+          margin: 20px 0 0 0;
+          /*overflow: hidden;*/
+          display: -webkit-flex;
+	        display: -moz-flex;
+	        display: -ms-flex;
+	        display: -o-flex;
+	        display: flex;
+          justify-content: center;
+          /*text-align: center;*/
+        }
+        .base_color{
+          /*float: left;*/
+          margin-left: 20px;
+          width: 120px;
+        }
+        .base_color img{
+          width: 100%;
+        }
         #rainbow {
             background-image: -webkit-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
             background-image: -moz-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
@@ -27,19 +66,18 @@
 </head>
 <body>
 <div class="container-fluid">
-    <input id="blue" class="btn btn-default " style="background-color: rgb(34,140,252);" type="button" value="Blue">
-    <input id="orange" class="btn btn-default" style="background-color: rgb(223,87,43);" type="button" value="Orange">
-    <input id="black" class="btn btn-default" style="background-color: rgb(82,44,46);" type="button" value="Black">
-    <input id="red" class="btn btn-default" style="background-color: rgb(181,28,28);" type="button" value="Red">
-    <input id="purple" class="btn btn-default" style="background-color: rgb(110,68,158);" type="button" value="Purple">
-    <input id="yellow" class="btn btn-default" style="background-color: rgb(247,239,28);" type="button" value="Yellow">
-    <input id="dark_green" class="btn btn-default" style="background-color: rgb(55,102,39);" type="button"
-           value="Dark green">
-    <input id="green" class="btn btn-default" style="background-color: rgb(66,179,67);" type="button" value="Green">
-    <input id="oudo" class="btn btn-default" style="background-color: rgb(175,144,21);" type="button" value="Oudo">
-    <input id="pink" class="btn btn-default" style="background-color: rgb(218,41,137);" type="button" value="Pink">
-    <!--<input id="all" class="btn btn-default" style="background-color: rgb(255,255,255);" type="button" value="ALL">-->
-
+    <div class="basic">
+      <div id="yellow" class="base_color"><img src="img/yellow.png" alt=""></div>
+      <div id="red" class="base_color"><img src="img/red.png" alt=""></div>
+    </div>
+    <div class="basic">
+      <div id="black" class="base_color"><img src="img/black.png" alt=""></div>
+      <div id="blue" class="base_color"><img src="img/blue.png" alt=""></div>
+    </div>
+    <div id="purple" class="quiz_btn"><img src="img/purple.png" alt="紫色"></div>
+    <div id="orange" class="quiz_btn"><img src="img/orange.png" alt="オレンジ色"></div>
+    <div id="green" class="quiz_btn"><img src="img/green.png" alt="緑色"></div>
+    <div id="oudo" class="quiz_btn"><img src="img/oudo.png" alt="おうど色"></div>
     <input id="rainbow" class="btn btn-default" type="button" value="Rainbow">
 
 </div>
@@ -81,6 +119,7 @@
     });
     $('#purple').click(function () {
         socket.emit('command', PURPLE);
+        // console.log("紫だよ");
     });
     $('#yellow').click(function () {
         socket.emit('command', YELLOW);
