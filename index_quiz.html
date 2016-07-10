@@ -1,44 +1,14 @@
 <!doctype html>
 <html>
-<html lang="ja">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <title>染め氷 コントローラ</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <style>
-        .btn {
-            width: 100%;
-            height: 50px;
-            display: block;
-            margin-top: 4px;
-            margin-left: auto;
-            margin-right: auto
-        }
-        .quiz_btn{
-          margin: 20px auto auto 0;
-          padding: 0;
-          /*min-height: 228px;*/
-          border: none;
-          /*background-image: url('img/purple.png');*/
-          /*background-repeat: no-repeat;*/
-          /*background-position: center;*/
-          /*background-size: contain;*/
-          /*text-indent: -9999px;*/
-          text-align: center;
-          width: 100%;
-          cursor: pointer;
-        }
-        .quiz_btn:hover{
-          background-color: transparent;
-        }
-        .quiz_btn img{
-          width: 100%;
-          height: auto;
-        }
-        .basic{
-          margin: 20px 0 0 0;
-          /*overflow: hidden;*/
+        .group{
+          margin: 40px 0 0 0;
+          overflow: hidden;
           display: -webkit-flex;
 	        display: -moz-flex;
 	        display: -ms-flex;
@@ -47,37 +17,42 @@
           justify-content: center;
           /*text-align: center;*/
         }
-        .base_color{
+        .quiz_btn{
           /*float: left;*/
           margin-left: 20px;
-          width: 120px;
+          width: 180px;
         }
-        .base_color img{
+        .quiz_btn:hover{
+          background-color: transparent;
+        }
+        .quiz_btn img{
           width: 100%;
+          height: auto;
         }
         #rainbow {
             background-image: -webkit-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
             background-image: -moz-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
             background-image: -o-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
             background-image: -ms-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
-            margin-top: 15px;
+            margin-top: 40px;
+            width:100%;
         }
     </style>
 </head>
 <body>
 <div class="container-fluid">
-    <div class="basic">
-      <div id="yellow" class="base_color"><img src="img/yellow.png" alt=""></div>
-      <div id="red" class="base_color"><img src="img/red.png" alt=""></div>
+    <div class="group">
+      <div id="purple" class="quiz_btn"><img src="img/purple.png" alt="紫色"></div>
+      <div id="orange" class="quiz_btn"><img src="img/orange.png" alt="オレンジ色"></div>
     </div>
-    <div class="basic">
-      <div id="black" class="base_color"><img src="img/black.png" alt=""></div>
-      <div id="blue" class="base_color"><img src="img/blue.png" alt=""></div>
+    <div class="group">
+      <div id="green" class="quiz_btn"><img src="img/green.png" alt="緑色"></div>
+      <div id="oudo" class="quiz_btn"><img src="img/oudo.png" alt="おうど色"></div>
     </div>
-    <div id="purple" class="quiz_btn"><img src="img/purple.png" alt="紫色"></div>
-    <div id="orange" class="quiz_btn"><img src="img/orange.png" alt="オレンジ色"></div>
-    <div id="green" class="quiz_btn"><img src="img/green.png" alt="緑色"></div>
-    <div id="oudo" class="quiz_btn"><img src="img/oudo.png" alt="おうど色"></div>
+    <div class="group">
+      <div id="red" class="quiz_btn"><img src="img/red.png" alt="赤色"></div>
+      <div id="dark_green" class="quiz_btn"><img src="img/gunjo.png" alt="深緑色"></div>
+    </div>
     <input id="rainbow" class="btn btn-default" type="button" value="Rainbow">
 
 </div>
