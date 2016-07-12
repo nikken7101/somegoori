@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>染め氷 コントローラ</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        .group{
+          margin: 40px 0 0 0;
+          overflow: hidden;
+          display: -webkit-flex;
+	        display: -moz-flex;
+	        display: -ms-flex;
+	        display: -o-flex;
+	        display: flex;
+          justify-content: center;
+          /*text-align: center;*/
+        }
+        .quiz_btn{
+          /*float: left;*/
+          margin-left: 20px;
+          width: 180px;
+        }
+        .quiz_btn:hover{
+          background-color: transparent;
+        }
+        .quiz_btn img{
+          width: 100%;
+          height: auto;
+        }
+        #rainbow {
+            background-image: -webkit-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            background-image: -moz-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            background-image: -o-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            background-image: -ms-linear-gradient(left, #f69, #fc0, #3c3, #09f, #96f);
+            margin-top: 40px;
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="group">
+      <div id="purple" class="quiz_btn"><img src="img/purple.png" alt="紫色"></div>
+      <div id="orange" class="quiz_btn"><img src="img/orange.png" alt="オレンジ色"></div>
+    </div>
+    <div class="group">
+      <div id="green" class="quiz_btn"><img src="img/green.png" alt="緑色"></div>
+      <div id="oudo" class="quiz_btn"><img src="img/oudo.png" alt="おうど色"></div>
+    </div>
+    <div class="group">
+      <div id="red" class="quiz_btn"><img src="img/red.png" alt="赤色"></div>
+      <div id="dark_green" class="quiz_btn"><img src="img/gunjo.png" alt="深緑色"></div>
+    </div>
+<!--     <input id="rainbow" class="btn btn-default" type="button" value="Rainbow"> -->
+
+</div>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+
+    var PUMP_CYAN = 0;
+    var PUMP_MAGENTA = 1;
+    var PUMP_YELLOW = 2;
+    var PUMP_BLACK = 3;
+
+    var ONE_PUSH_DURATION = 1500;
+
+    var BLUE = [[PUMP_CYAN, 0, 1 * ONE_PUSH_DURATION]];
+    var ORANGE = [[PUMP_MAGENTA, 0, 0.3 * ONE_PUSH_DURATION], [PUMP_YELLOW, 0, 0.8 * ONE_PUSH_DURATION]];
+    var BLACK = [[PUMP_BLACK, 0, 1 * ONE_PUSH_DURATION]];
+    var RED = [[PUMP_MAGENTA, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+    var PURPLE = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_MAGENTA, 0, 0.7 * ONE_PUSH_DURATION]];
+    var YELLOW = [[PUMP_YELLOW, 0, 1 * ONE_PUSH_DURATION]];
+    var DARK_GREEN = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+    var GREEN = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_YELLOW, 0, 0.7 * ONE_PUSH_DURATION]];
+    var OUDO = [[PUMP_YELLOW, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+    var PINK = [[PUMP_MAGENTA, 0, 1 * ONE_PUSH_DURATION]];
+    var ALL = [[PUMP_CYAN, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_MAGENTA, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_YELLOW, 0, 0.7 * ONE_PUSH_DURATION], [PUMP_BLACK, 0, 0.7 * ONE_PUSH_DURATION]];
+
+    var socket = io();
+    $('#blue').click(function () {
+        socket.emit('command', BLUE);
+    });
+    $('#orange').click(function () {
+        socket.emit('command', ORANGE);
+    });
+    $('#black').click(function () {
+        socket.emit('command', BLACK);
+    });
+    $('#red').click(function () {
+        socket.emit('command', RED);
+    });
+    $('#purple').click(function () {
+        socket.emit('command', PURPLE);
+        // console.log("紫だよ");
+    });
+    $('#yellow').click(function () {
+        socket.emit('command', YELLOW);
+    });
+    $('#dark_green').click(function () {
+        socket.emit('command', DARK_GREEN);
+    });
+    $('#green').click(function () {
+        socket.emit('command', GREEN);
+    });
+    $('#oudo').click(function () {
+        socket.emit('command', OUDO);
+    });
+    $('#pink').click(function () {
+        socket.emit('command', PINK);
+    });
+    $('#rainbow').click(function () {
+        //BLUE->PURPLE->PINK->RED->ORANGE->YELLOW->OUDO->GREEN->DARK_GREEN->BLACK
+        var colors = [BLUE, PURPLE, PINK, RED, ORANGE, YELLOW, OUDO, GREEN, DARK_GREEN, BLACK];
+        var temp = function (i) {
+            socket.emit('command', colors[i]);
+            if (i + 1 < colors.length) {
+                setTimeout(temp, ONE_PUSH_DURATION, i + 1)
+            }
+        };
+        temp(0)
+    });
+
+</script>
+</body>
+</html>
