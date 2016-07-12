@@ -24,6 +24,12 @@ app.get('/simple', function (req, res) {
     res.sendfile('index_simple.html');
 });
 
+app.get('/quiz', function (req, res) {
+    res.sendfile('index_quiz.html');
+});
+
+app.use(express.static('public'));
+
 io.on('connection', function (socket) {
     console.log('a user connected');
 });
